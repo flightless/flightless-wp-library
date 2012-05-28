@@ -13,22 +13,13 @@ class Flightless_Post_Type {
 	 * rewrite rules need to be flushed.
 	 */
 	public static function check_rewrite_rules() {
-		if ( get_option('tribe_cpt_registry') != self::$post_type_registry ) {
+		if ( get_option('flightless_cpt_registry') != self::$post_type_registry ) {
 			add_action('init', 'flush_rewrite_rules', 100, 0);
-			update_option('tribe_cpt_registry', self::$post_type_registry);
+			update_option('flightless_cpt_registry', self::$post_type_registry);
 		}
 	}
 
 	private static $post_type_registry = array();
-
-	/**
-	 * An array of Tribe_Post_Meta_Box
-	 * Contains the meta boxes to be displayed for the post type
-	 * Key should be the classname, value should be the Loyalty_Activity_Meta_Box object
-	 *
-	 * @var Tribe_Post_Meta_Box[]
-	 */
-	protected $meta_boxes = array();
 
 	/**
 	 * Hello. What's your name?
@@ -43,19 +34,29 @@ class Flightless_Post_Type {
 
 	protected $supports = array('title', 'editor', 'author', 'thumbnail', 'excerpt');
 
-	public $capability_type = 'post';
 	public $description = 'A custom post type';
 	public $hierarchical = FALSE;
+
+	public $capability_type = 'post';
+	public $capabilities = array();
+	public $map_meta_cap = FALSE;
+
 	public $menu_icon = NULL;
-	public $menu_position = 4;
+	public $menu_position = 5;
+
 	public $public = TRUE;
-	public $publicly_queryable = TRUE;
-	public $exclude_from_search = FALSE;
+	public $publicly_queryable = NULL;
+	public $exclude_from_search = NULL;
 	public $has_archive = TRUE;
 	public $slug = '';
-	public $show_in_menu = TRUE;
-	public $show_in_nav_menus = TRUE;
-	public $show_ui = TRUE;
+	public $query_var = TRUE;
+
+	public $show_ui = NULL;
+	public $show_in_menu = NULL;
+	public $show_in_nav_menus = NULL;
+	public $show_in_admin_bar = NULL;
+
+	public $permalink_epmask = EP_PERMALINK;
 	public $can_export = TRUE;
 	public $taxonomies = array();
 
@@ -132,6 +133,7 @@ class Flightless_Post_Type {
 			'show_in_nav_menus' => $this->show_in_nav_menus,
 			'menu_icon' => $this->menu_icon,
 			'capability_type' => $this->capability_type,
+			'capabilities' => $this->capabilities,
 			'hierarchical' => $this->hierarchical,
 			'supports' => $this->supports,
 			'has_archive' => $this->has_archive,
@@ -140,13 +142,14 @@ class Flightless_Post_Type {
 				'slug' => $this->get_slug(),
 				'with_front' => FALSE,
 			),
+			'query_var' => $this->query_var,
 			'menu_position' => $this->menu_position,
 			'exclude_from_search' => $this->exclude_from_search,
 			'can_export' => $this->can_export,
 		);
 
-		$args = apply_filters('tribe_custom_post_type_args', $args, $this->post_type);
-		$args = apply_filters('tribe_custom_post_type_args_'.$this->post_type, $args);
+		$args = apply_filters('flightless_custom_post_type_args', $args, $this->post_type);
+		$args = apply_filters('flightless_custom_post_type_args_'.$this->post_type, $args);
 
 		return $args;
 	}
@@ -175,8 +178,8 @@ class Flightless_Post_Type {
 			'menu_name' => $plural,
 		);
 
-		$labels = apply_filters('tribe_custom_post_type_labels', $labels, $this->post_type);
-		$labels = apply_filters('tribe_custom_post_type_labels_'.$this->post_type, $labels);
+		$labels = apply_filters('flightless_custom_post_type_labels', $labels, $this->post_type);
+		$labels = apply_filters('flightless_custom_post_type_labels_'.$this->post_type, $labels);
 
 		return $labels;
 	}
