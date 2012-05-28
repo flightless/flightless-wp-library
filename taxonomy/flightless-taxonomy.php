@@ -13,4 +13,6 @@ Contributors: jbrinley
 Version: 1.0
 */
 
-include_once('Flightless_Taxonomy.php');
+if ( !class_exists('Flightless_Taxonomy') ) {
+	include_once('Flightless_Taxonomy.php');
+}

@@ -13,4 +13,6 @@ Contributors: jbrinley
 Version: 1.0
 */
 
-include_once('Flightless_Post_Type.php');
+if ( !class_exists('Flightless_Post_Type') ) {
+	include_once('Flightless_Post_Type.php');
+}
