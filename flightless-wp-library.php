@@ -16,3 +16,4 @@ Version: 1.0
 include_once('meta-box/flightless-meta-box.php');
 include_once('post-type/flightless-post-type.php');
 include_once('taxonomy/flightless-taxonomy.php');
+include_once('admin/flightless-admin.php');
