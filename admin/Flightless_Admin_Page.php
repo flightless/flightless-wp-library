@@ -9,6 +9,8 @@ class Flightless_Admin_Page {
 	protected $menu_icon = '';
 	protected $menu_position = NULL;
 
+	protected $queue = array();
+
 	/** @var Flightless_Settings_Section[] */
 	protected $sections = array();
 	protected $fields = array();
@@ -69,6 +71,12 @@ class Flightless_Admin_Page {
 			$args[] = $this->menu_position;
 		}
 		call_user_func_array( $function, $args);
+
+		$this->register_sections();
+
+		foreach ( $this->queue as $id => $args ) {
+			$this->do_add_field($id, $args);
+		}
 	}
 
 	public function display_page() {
@@ -94,6 +102,7 @@ class Flightless_Admin_Page {
 		$args = wp_parse_args($args, array(
 			'section' => 'default',
 			'title' => $id,
+			'description' => '',
 			'callback' => array( $this, 'display_field' ),
 			'args' => array(),
 			'option' => $id,
@@ -107,16 +116,12 @@ class Flightless_Admin_Page {
 		if ( $args['callback'] == array( $this, 'display_field' ) ) {
 			$args['args'] = wp_parse_args( $args['args'], array(
 				'name' => $args['option'],
-				'current' => get_option($args['option']),
-				'description' => '',
+				'current' => $this->get_option($args['option']),
+				'description' => $args['description'],
 			));
 		}
 
-		$this->add_settings_field($id, $args['title'], $args['callback'], $args['section'], $args['args']);
-
-		$this->register_setting($args['option'], $args['sanitize_callback']);
-
-		$this->fields[$id] = $args;
+		$this->queue[$id] = $args;
 	}
 
 	public function display_field( $args = array() ) {
@@ -160,5 +165,21 @@ class Flightless_Admin_Page {
 
 	protected function page_url() {
 		return menu_page_url($this->slug, FALSE);
+	}
+
+	protected function register_sections() {
+		foreach ( $this->sections as $section ) {
+			$section->register($this->slug);
+		}
+	}
+
+	protected function do_add_field( $id, $args ) {
+		$this->add_settings_field($id, $args['title'], $args['callback'], $args['section'], $args['args']);
+		$this->register_setting($args['option'], $args['sanitize_callback']);
+		$this->fields[$id] = $args;
+	}
+
+	protected function get_option( $option ) {
+		return get_option($option);
 	}
 }

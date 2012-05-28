@@ -60,4 +60,8 @@ class Flightless_Network_Admin_Page extends Flightless_Admin_Page {
 		$url = str_replace(admin_url(), network_admin_url(), $url);
 		return $url;
 	}
+
+	protected function get_option( $option ) {
+		return get_site_option($option);
+	}
 }

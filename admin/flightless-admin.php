@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Flightless
- * @version 1.0
+ * @version 1.0.1
  */
 /*
 Plugin Name: Flightless Admin
@@ -10,7 +10,7 @@ Description: Admin pages
 Author: Flightless, Inc.
 Author URI: http://flightless.us
 Contributors: jbrinley
-Version: 1.0
+Version: 1.0.1
 */
 
 if ( !class_exists('Flightless_Admin_Page') && !class_exists('Flightless_Network_Admin_Page') ) {

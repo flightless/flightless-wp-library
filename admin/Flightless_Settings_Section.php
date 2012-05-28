@@ -21,7 +21,7 @@ class Flightless_Settings_Section {
 		add_settings_section(
 			$this->id,
 			$this->title,
-			array($this, 'display_settings_section'),
+			array($this, 'display'),
 			$page
 		);
 	}
