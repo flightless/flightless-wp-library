@@ -2,8 +2,8 @@
 
 class Flightless_Post_Type {
 
-	private static function init() {
-		add_action('plugins_loaded', array(__CLASS__, 'check_rewrite_rules'), 10000, 0);
+	public static function init() {
+		add_action('init', array(__CLASS__, 'check_rewrite_rules'), 10000, 0);
 	}
 
 	/**
