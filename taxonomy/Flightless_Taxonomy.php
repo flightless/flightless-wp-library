@@ -77,6 +77,13 @@ class Flightless_Taxonomy {
 			if ( !is_numeric($slug) ) {
 				$args['slug'] = $slug;
 			}
+			if ( is_array($term) ) {
+				$args = array_merge($term, $args);
+				$term = $term['name'];
+			}
+			if ( !$term ) {
+				$term = $slug;
+			}
 			wp_insert_term($term, $this->taxonomy, $args);
 		}
 	}
@@ -86,7 +93,7 @@ class Flightless_Taxonomy {
 	 */
 	protected function add_hooks() {
 		add_action( 'init', array( $this, 'register_taxonomy' ), 8, 0 );
-		add_action( 'plugins_loaded', array( $this, 'register_default_terms' ), 8, 0 );
+		add_action( 'init', array( $this, 'register_default_terms' ), 9, 0 );
 	}
 
 	/**
@@ -187,6 +194,10 @@ class Flightless_Taxonomy {
 				}
 				return $this->label_singular;
 		}
+	}
+
+	public function get_id() {
+		return $this->taxonomy;
 	}
 
 	/**
