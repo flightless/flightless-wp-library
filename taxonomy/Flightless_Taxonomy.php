@@ -69,7 +69,7 @@ class Flightless_Taxonomy {
 
 	public function register_default_terms() {
 		// don't do anything if the taxonomy already has terms
-		if ( !$this->default_terms || get_terms($this->taxonomy, array('hide_empty'=>FALSE)) ) {
+		if ( !$this->default_terms || get_terms($this->taxonomy, array('hide_empty'=>FALSE, 'orderby'=>'none')) ) {
 			return;
 		}
 		foreach( $this->default_terms as $slug => $term ) {
