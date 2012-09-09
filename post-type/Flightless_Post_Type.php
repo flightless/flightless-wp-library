@@ -133,6 +133,7 @@ class Flightless_Post_Type {
 			'show_in_nav_menus' => $this->show_in_nav_menus,
 			'menu_icon' => $this->menu_icon,
 			'capability_type' => $this->capability_type,
+			'map_meta_cap' => $this->map_meta_cap,
 			'capabilities' => $this->capabilities,
 			'hierarchical' => $this->hierarchical,
 			'supports' => $this->supports,
